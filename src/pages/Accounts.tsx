@@ -1,10 +1,12 @@
 import { useEffect, useMemo, useState } from 'react'
+import type { CSSProperties } from 'react'
 import { Archive, ArchiveRestore, Pencil, Plus, Wallet } from 'lucide-react'
 import {
   Button, ConfirmDialog, EmptyState, ErrorNote, Field, Input, Modal, Select,
   SkeletonRows, Textarea, useToast,
 } from '@/components/ui'
 import { AmountInput } from '@/components/AmountInput'
+import { ColorPicker, DEFAULT_SWATCHES } from '@/components/ColorPicker'
 import { CurrencySelect } from '@/components/Pickers'
 import { Money } from '@/components/Money'
 import { TransactionList } from '@/components/TransactionList'
@@ -24,7 +26,6 @@ const TYPE_LABELS: Record<AccountType, string> = {
   mobile_wallet: 'Mobile wallet', overdraft: 'Overdraft', insurance: 'Insurance',
 }
 
-const SWATCHES = ['#3b45d6', '#0f7b4f', '#be3b3b', '#b45309', '#7c3aed', '#0891b2', '#db2777', '#4b5563']
 
 export function Accounts() {
   const { data: profile } = useProfile()
@@ -83,8 +84,8 @@ export function Accounts() {
             <button
               key={a.id}
               onClick={() => setOpen(a)}
-              className="panel px-4 py-4 text-left transition-colors hover:border-[var(--rule-strong)]"
-              style={a.archived ? { opacity: 0.55 } : undefined}
+              className="panel tinted p-4"
+              style={{ '--tint': a.color } as CSSProperties}
             >
               <div className="flex items-center gap-2">
                 <span className="h-2.5 w-2.5 shrink-0 rounded-full" style={{ background: a.color }} aria-hidden />
@@ -158,7 +159,7 @@ function AccountDialog({
   const [type, setType] = useState<AccountType>('cash')
   const [currency, setCurrency] = useState('BDT')
   const [opening, setOpening] = useState<number | null>(0)
-  const [color, setColor] = useState(SWATCHES[0])
+  const [color, setColor] = useState(DEFAULT_SWATCHES[0])
   const [note, setNote] = useState('')
   const [excluded, setExcluded] = useState(false)
   const [archived, setArchived] = useState(false)
@@ -173,7 +174,7 @@ function AccountDialog({
     setType(existing?.type ?? 'cash')
     setCurrency(existing?.currency_code ?? profile?.base_currency ?? 'BDT')
     setOpening(existing?.initial_balance_minor ?? 0)
-    setColor(existing?.color ?? SWATCHES[0])
+    setColor(existing?.color ?? DEFAULT_SWATCHES[0])
     setNote(existing?.note ?? '')
     setExcluded(existing?.exclude_from_stats ?? false)
     setArchived(existing?.archived ?? false)
@@ -250,17 +251,8 @@ function AccountDialog({
             <AmountInput valueMinor={opening} onChange={setOpening} currency={currency} />
           </Field>
 
-          <Field label="Colour">
-            <div className="flex flex-wrap gap-2">
-              {SWATCHES.map((c) => (
-                <button
-                  key={c} type="button" onClick={() => setColor(c)}
-                  className="h-7 w-7 rounded-full transition-transform"
-                  style={{ background: c, outline: color === c ? '2px solid var(--ink)' : 'none', outlineOffset: 2 }}
-                  aria-label={`Colour ${c}`}
-                />
-              ))}
-            </div>
+          <Field label="Colour" hint="The card takes a soft shade of whatever you pick.">
+            <ColorPicker value={color} onChange={setColor} />
           </Field>
 
           <Field label="Note">

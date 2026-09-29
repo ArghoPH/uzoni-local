@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import type { CSSProperties } from 'react'
 import { Link } from 'react-router-dom'
 import { CalendarClock, TriangleAlert } from 'lucide-react'
 import {
@@ -130,11 +131,12 @@ export function Dashboard() {
             {(accounts.data ?? []).map((a) => (
               <Link
                 key={a.id} to="/accounts"
-                className="panel min-w-[9.5rem] shrink-0 px-3.5 py-3"
+                className="panel tinted min-w-[9.5rem] shrink-0 px-3.5 py-3 transition-colors"
+                style={{ '--tint': a.color } as CSSProperties}
               >
                 <div className="flex items-center gap-1.5">
                   <span className="h-2 w-2 rounded-full" style={{ background: a.color }} aria-hidden />
-                  <span className="truncate text-sm">{a.name}</span>
+                  <span className="truncate text-sm font-medium">{a.name}</span>
                 </div>
                 <div className="mt-1">
                   <Money
@@ -154,7 +156,7 @@ export function Dashboard() {
       <div className="grid gap-5 lg:grid-cols-2">
         {/* --------------------------------------------------- cashflow */}
         <section className="panel px-4 py-4">
-          <h2 className="mb-3 text-[0.9375rem] font-semibold">Last six months</h2>
+          <h2 className="mb-3 text-[0.9375rem] font-semibold">Cash Flow (Last 6 Months)</h2>
           {cashflow.isLoading ? <div className="skeleton h-48" /> : (
             <div style={{ height: 200 }}>
               <ResponsiveContainer width="100%" height="100%">

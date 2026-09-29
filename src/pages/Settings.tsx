@@ -4,6 +4,7 @@ import {
   Button, ConfirmDialog, Field, Input, Modal, Segmented, Select, SkeletonRows, useToast,
 } from '@/components/ui'
 import { AccountSelect, CategorySelect, CurrencySelect } from '@/components/Pickers'
+import { ColorPicker, DEFAULT_SWATCHES } from '@/components/ColorPicker'
 import { Money } from '@/components/Money'
 import {
   useCurrencies, useDeleteRate, useProfile, useRates, useSaveRate, useUpdateProfile,
@@ -185,7 +186,6 @@ function Categories() {
   )
 }
 
-const SWATCHES = ['#3b45d6', '#0f7b4f', '#be3b3b', '#b45309', '#7c3aed', '#0891b2', '#db2777', '#4b5563']
 
 function CategoryDialog({
   open, onClose, kind, parentId, existing,
@@ -198,7 +198,7 @@ function CategoryDialog({
   const update = useUpdateCategory()
   const remove = useDeleteCategory()
   const [name, setName] = useState('')
-  const [color, setColor] = useState(SWATCHES[0])
+  const [color, setColor] = useState(DEFAULT_SWATCHES[0])
   const [archived, setArchived] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [confirming, setConfirming] = useState(false)
@@ -207,7 +207,7 @@ function CategoryDialog({
     if (!open) return
     setError(null)
     setName(existing?.name ?? '')
-    setColor(existing?.color ?? SWATCHES[0])
+    setColor(existing?.color ?? DEFAULT_SWATCHES[0])
     setArchived(existing?.archived ?? false)
   }, [open, existing])
 
@@ -248,14 +248,7 @@ function CategoryDialog({
             <Input value={name} onChange={(e) => setName(e.target.value)} autoFocus />
           </Field>
           <Field label="Colour">
-            <div className="flex flex-wrap gap-2">
-              {SWATCHES.map((c) => (
-                <button key={c} type="button" onClick={() => setColor(c)}
-                        className="h-7 w-7 rounded-full"
-                        style={{ background: c, outline: color === c ? '2px solid var(--ink)' : 'none', outlineOffset: 2 }}
-                        aria-label={`Colour ${c}`} />
-              ))}
-            </div>
+            <ColorPicker value={color} onChange={setColor} />
           </Field>
           {existing && (
             <label className="flex items-center gap-2.5 text-sm">

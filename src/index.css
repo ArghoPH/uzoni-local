@@ -109,6 +109,28 @@
     border-radius: 14px;
   }
 
+  /*
+    A panel tinted with whatever colour it carries. `--tint` is set inline from
+    the row's own hex, and color-mix blends it into the current surface, so the
+    same class works in both themes without a second palette.
+  */
+  .tinted {
+    background: color-mix(in srgb, var(--tint, var(--accent)) 7%, var(--surface));
+    border-color: color-mix(in srgb, var(--tint, var(--accent)) 32%, var(--rule));
+  }
+  .tinted:hover {
+    background: color-mix(in srgb, var(--tint, var(--accent)) 11%, var(--surface));
+    border-color: color-mix(in srgb, var(--tint, var(--accent)) 46%, var(--rule));
+  }
+  :root[data-theme='dark'] .tinted {
+    background: color-mix(in srgb, var(--tint, var(--accent)) 16%, var(--surface));
+    border-color: color-mix(in srgb, var(--tint, var(--accent)) 38%, var(--rule));
+  }
+  :root[data-theme='dark'] .tinted:hover {
+    background: color-mix(in srgb, var(--tint, var(--accent)) 22%, var(--surface));
+    border-color: color-mix(in srgb, var(--tint, var(--accent)) 52%, var(--rule));
+  }
+
   .field {
     width: 100%;
     background: var(--surface);
