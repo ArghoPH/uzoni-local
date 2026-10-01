@@ -9,6 +9,7 @@ import { Button, EmptyState, Meter, SkeletonRows, useToast } from '@/components/
 import { Money } from '@/components/Money'
 import { TransactionList } from '@/components/TransactionList'
 import { TransactionDialog } from '@/components/TransactionDialog'
+import { AccountSheet } from '@/components/AccountSheet'
 import { useAccounts } from '@/hooks/useAccounts'
 import { useProfile, useCurrencies } from '@/hooks/useReference'
 import { useTransactions, useGenerateRecurring } from '@/hooks/useTransactions'
@@ -17,7 +18,7 @@ import { useCashflow, useNetWorth } from '@/hooks/useReports'
 import { bucketLabel, daysUntil, dueLabel, rangeFor, today } from '@/lib/dates'
 import { formatCompact } from '@/lib/money'
 import { humanizeError } from '@/lib/api'
-import type { TransactionRow } from '@/lib/types'
+import type { AccountWithBalance, TransactionRow } from '@/lib/types'
 
 export function Dashboard() {
   const toast = useToast()
@@ -41,6 +42,7 @@ export function Dashboard() {
   const generate = useGenerateRecurring()
 
   const [editing, setEditing] = useState<TransactionRow | null>(null)
+  const [openAccount, setOpenAccount] = useState<AccountWithBalance | null>(null)
 
   const thisMonth = cashflow.data?.[cashflow.data.length - 1]
   const upcoming = (recurring.data ?? [])
@@ -129,9 +131,11 @@ export function Dashboard() {
         {accounts.isLoading ? <div className="skeleton h-20" /> : (
           <div className="scroll-thin -mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
             {(accounts.data ?? []).map((a) => (
-              <Link
-                key={a.id} to="/accounts"
-                className="panel tinted min-w-[9.5rem] shrink-0 px-3.5 py-3 transition-colors"
+              <button
+                key={a.id}
+                type="button"
+                onClick={() => setOpenAccount(a)}
+                className="panel tinted min-w-[9.5rem] shrink-0 px-3.5 py-3 text-left transition-colors"
                 style={{ '--tint': a.color } as CSSProperties}
               >
                 <div className="flex items-center gap-1.5">
@@ -147,7 +151,7 @@ export function Dashboard() {
                     compactZeros
                   />
                 </div>
-              </Link>
+              </button>
             ))}
           </div>
         )}
@@ -262,6 +266,7 @@ export function Dashboard() {
       </section>
 
       <TransactionDialog open={Boolean(editing)} existing={editing} onClose={() => setEditing(null)} />
+      <AccountSheet account={openAccount} onClose={() => setOpenAccount(null)} />
     </div>
   )
 }
