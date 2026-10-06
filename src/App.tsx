@@ -21,6 +21,7 @@ const Settings = lazy(() => import('@/pages/Settings').then((m) => ({ default: m
 export default function App() {
   const { data: profile, isLoading, isError, error } = useProfile()
 
+  // s
   if (isLoading) {
     return (
       <div className="grid min-h-dvh place-items-center">
