@@ -41,7 +41,6 @@ export function TransactionDialog({
   const [note, setNote] = useState('')
   const [status, setStatus] = useState<TxnStatus>('cleared')
   const [error, setError] = useState<string | null>(null)
-
   const editing = Boolean(existing)
 
   // Load the dialog fresh every time it opens.
