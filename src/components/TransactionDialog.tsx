@@ -77,7 +77,6 @@ export function TransactionDialog({
   const crossCurrency = type === 'transfer' && Boolean(from && to) && from!.currency_code !== to!.currency_code
   const fromDigits = currencies?.[from?.currency_code ?? '']?.decimal_digits ?? 2
   const toDigits = currencies?.[to?.currency_code ?? '']?.decimal_digits ?? 2
-
   const busy = create.isPending || update.isPending || remove.isPending
 
   async function submit() {
