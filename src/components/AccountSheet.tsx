@@ -18,7 +18,7 @@ export const TYPE_LABELS: Record<AccountType, string> = {
  * Accounts page and from the account strip on the dashboard, so it lives here
  * rather than inside either page.
  */
-export function AccountSheet({ account, onClose }: { account: AccountWithBalance | null; onClose: () => void }) {
+export function AccountSheet({ account, onClose } : { account: AccountWithBalance | null; onClose: () => void }) {
   const [editing, setEditing] = useState<TransactionRow | null>(null)
   const [adding, setAdding] = useState(false)
 
@@ -39,14 +39,17 @@ export function AccountSheet({ account, onClose }: { account: AccountWithBalance
         {account && (
           <>
             <div className="mb-4 flex flex-wrap gap-x-8 gap-y-2">
+              
               <div>
                 <p className="text-xs muted">Balance</p>
                 <Money minor={account.balance?.balance_minor ?? 0} currency={account.currency_code} size="xl" tone="plain" />
               </div>
+
               <div>
                 <p className="text-xs muted">Opening</p>
                 <Money minor={account.initial_balance_minor} currency={account.currency_code} size="lg" tone="muted" />
               </div>
+              
               <div>
                 <p className="text-xs muted">Transactions</p>
                 <p className="fig text-lg font-semibold">{account.balance?.transaction_count ?? 0}</p>
