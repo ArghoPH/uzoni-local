@@ -18,11 +18,13 @@ async function call(method, path, body) {
     headers: body === undefined ? undefined : { 'Content-Type': 'application/json' },
     body: body === undefined ? undefined : JSON.stringify(body),
   })
+
   const text = await res.text()
   let json = null
   try { json = text ? JSON.parse(text) : null } catch { json = { raw: text } }
   return { status: res.status, body: json }
 }
+
 const get = (p) => call('GET', p)
 const post = (p, b) => call('POST', p, b)
 const patch = (p, b) => call('PATCH', p, b)

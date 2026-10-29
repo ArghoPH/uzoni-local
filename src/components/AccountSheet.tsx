@@ -54,6 +54,7 @@ export function AccountSheet({ account, onClose } : { account: AccountWithBalanc
                 <p className="text-xs muted">Transactions</p>
                 <p className="fig text-lg font-semibold">{account.balance?.transaction_count ?? 0}</p>
               </div>
+              
             </div>
 
             <div className="overflow-hidden rounded-xl" style={{ border: '1px solid var(--rule)' }}>
