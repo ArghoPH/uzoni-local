@@ -34,6 +34,7 @@ const today = new Date().toISOString().slice(0, 10)
 const daysAgo = (n) => new Date(Date.now() - n * 86400000).toISOString().slice(0, 10)
 
 // ---------------------------------------------------------------- health --
+
 {
   const r = await get('/api/health')
   check(r.status === 200 && r.body.database === 'up', 'health check reaches the database')

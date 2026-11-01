@@ -61,8 +61,8 @@ export function AppShell() {
       {/* ---------------------------------------------------------- sidebar */}
       <aside
         className="sticky top-0 hidden h-dvh w-60 shrink-0 flex-col px-3 py-4 lg:flex"
-        style={{ borderRight: '1px solid var(--rule)', background: 'var(--surface)' }}
-      >
+        style={{ borderRight: '1px solid var(--rule)', background: 'var(--surface)' }}>
+          
         <div className="flex items-center gap-2 px-2 pb-5">
           <Mark />
           <span className="text-[1.0625rem] font-semibold tracking-tight">Uzoni</span>
