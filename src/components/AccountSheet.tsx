@@ -26,6 +26,7 @@ export function AccountSheet({ account, onClose } : { account: AccountWithBalanc
     accountIds: account ? [account.id] : undefined,
     from: '1970-01-01',
   })
+  
   const rows = q.data?.pages.flat() ?? []
 
   return (
